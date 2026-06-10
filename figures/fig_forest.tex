@@ -11,7 +11,7 @@
   sel/.style={circle, draw, fill=gray!45, inner sep=1.7pt},
   unsel/.style={circle, draw, inner sep=1.7pt}
 ]
-\node[unsel, label=above:{$\Lambda$}] {}
+\node[unsel] (R0) [label=above:{$\Lambda$}] {}
   child { node[sel, label=left:{$L$}] {}
     child { node[unsel] {} child { node[unsel]{} } child { node[unsel]{} } }
     child { node[unsel] {} child { node[unsel]{} } child { node[unsel]{} } } }
@@ -21,7 +21,7 @@
     child { node[unsel] (R2) [label=right:{$RR$}] {}
       child { node[sel, label=below:{$RRL$}]{} } child { node[unsel] (R3) [label=right:{$RRR$}]{} } } };
 % puncture the rightmost branch: cross out R, RR, RRR
-\foreach \p in {R1,R2,R3} {
+\foreach \p in {R0,R1,R2,R3} {
   \draw[thick] (\p.center) ++(-2.6pt,-2.6pt) -- ++(5.2pt,5.2pt);
   \draw[thick] (\p.center) ++(-2.6pt,2.6pt) -- ++(5.2pt,-5.2pt);
 }
