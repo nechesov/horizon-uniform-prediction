@@ -1,0 +1,51 @@
+# EXP1: build time of Gamma^n(N0) vs n   (K_NEW=5)
+# n  depots  buildMs
+250 1251 1.18
+500 2501 0.74
+1000 5001 0.89
+2000 10001 2.24
+4000 20001 3.86
+8000 40001 8.89
+16000 80001 11.28
+# EXP2: query time vs m at n=8000 (median of 21 source/target pairs x 5 reps), microseconds
+# m  queryUs
+2 6.4
+4 24.9
+6 99.9
+8 130.4
+10 179.1
+12 250.0
+16 367.7
+20 494.2
+# EXP3: query time vs n at m=8, microseconds (median over 21 pairs x 5 reps)
+# n  depots  queryUs
+500 2501 100.3
+1000 5001 122.1
+2000 10001 111.5
+4000 20001 118.6
+8000 40001 131.6
+16000 80001 123.0
+# EXP4: ablation — exact total attribute bytes after n stages, FBC vs no-FBC
+# n  fbcBytes  noFbcBytes
+2 96 376
+4 176 46367
+6 256 5702886
+8 336 701408732
+10 416 86267571271
+12 496 10610209857722
+14 576 1304969544928656
+16 656 160500643816367087
+18 736 19740274219868223166
+20 816 2427893228399975082452
+# EXP5: floor vs empirical P(Phi_m | Phi_0), eps=0.01/hop, 100000 runs
+# m  floor  empirical
+1 0.990 0.9897
+2 0.980 0.9798
+4 0.960 0.9607
+8 0.920 0.9236
+12 0.880 0.8873
+16 0.840 0.8512
+20 0.800 0.8177
+# WORKED INSTANCE: A,H,B,D; tau(A,H)=2, tau(H,B)=3, tau(A,D)=1, tau(D,B)=5
+m=2 t=4 -> {"yes":false,"eta":"unreachable"}
+m=2 t=5 -> {"yes":true,"eta":5}

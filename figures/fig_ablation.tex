@@ -1,0 +1,37 @@
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=4.6cm, height=4.4cm, font=\scriptsize,
+  xlabel={horizon $n$ (stages)}, ylabel={attribute bytes},
+  ymode=log, xmin=0, xmax=21,
+  title={\scriptsize (d) ablation: size with/without FBC},
+  legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
+]
+\addplot[mark=triangle*, thick, dashed] coordinates {(2,376) (4,46367) (6,5702886) (8,701408732) (10,86267571271) (12,10610209857722) (14,1304969544928656) (16,160500643816367087) (18,19740274219868223166) (20,2427893228399975082452)};
+\addlegendentry{FBC violated}
+\addplot[mark=*, thick] coordinates {(2,96) (4,176) (6,256) (8,336) (10,416) (12,496) (14,576) (16,656) (18,736) (20,816)};
+\addlegendentry{with FBC}
+\end{axis}
+\begin{scope}[xshift=5.2cm]
+\begin{axis}[
+  width=4.6cm, height=4.4cm, font=\scriptsize,
+  xlabel={look-ahead $m$ (hops)}, ylabel={confidence},
+  ymin=0.75, ymax=1.0, xmin=0, xmax=21,
+  title={\scriptsize (e) floor vs.\ realized confidence},
+  legend style={font=\tiny, at={(0.02,0.02)}, anchor=south west, draw=none, fill=none},
+]
+\addplot[only marks, mark=o] coordinates {(1,0.9897) (2,0.9798) (4,0.9607) (8,0.9236) (12,0.8873) (16,0.8512) (20,0.8177)};
+\addlegendentry{empirical ($10^5$ runs)}
+\addplot[domain=0:21, thick, samples=40] {(1-0.01)^x};
+\addlegendentry{exact $(1-\epsilon)^m$}
+\addplot[domain=0:21, thick, dashed] {1-0.01*x};
+\addlegendentry{floor $1-m\epsilon$}
+\end{axis}
+\end{scope}
+\end{tikzpicture}
+\end{document}

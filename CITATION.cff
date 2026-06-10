@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "Horizon-Uniform Prediction on Operator-Generated Networks (simulation and supplementary materials)"
+authors:
+  - family-names: Nechesov
+    given-names: Andrey
+    affiliation: "Artificial Intelligence Center, Novosibirsk State University"
+  - family-names: Puzarenko
+    given-names: Vadim
+    affiliation: "Sobolev Institute of Mathematics, SB RAS; Artificial Intelligence Center, Novosibirsk State University"
+year: 2026
+license: MIT
+keywords:
+  - polynomial-time computability
+  - direct limits
+  - predictive analytics
+  - evolving networks
+  - fixed-point theorems
+abstract: >
+  Deterministic simulation validating the complexity guarantees of the paper
+  "Polynomial-Time Predictive Analytics on Evolving Networks via p-Computable
+  Direct Limits" (IEEE Access submission, 2026): linear-in-horizon
+  materialization, look-ahead-linear query cost, horizon-uniform query time
+  under network growth, a boundary-condition ablation, and a confidence-floor
+  validity check.

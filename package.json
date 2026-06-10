@@ -1,0 +1,14 @@
+{
+  "name": "horizon-uniform-prediction",
+  "version": "1.0.0",
+  "description": "Simulation and supplementary materials for 'Polynomial-Time Predictive Analytics on Evolving Networks via p-Computable Direct Limits' (IEEE Access submission)",
+  "main": "sim_network.js",
+  "scripts": {
+    "sim": "node sim_network.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "private": false
+}
