@@ -81,7 +81,7 @@ repository:
   title        = {Horizon-Uniform Prediction on Operator-Generated Networks
                   (simulation and supplementary materials)},
   year         = {2026},
-  howpublished = {\url{https://github.com/USER/horizon-uniform-prediction}},
+  howpublished = {\url{https://github.com/nechesov/horizon-uniform-prediction}},
   note         = {Supplementary code for an IEEE Access submission}
 }
 ```
