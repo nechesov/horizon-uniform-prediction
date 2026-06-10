@@ -3,36 +3,32 @@
 \usepackage{amsmath,amssymb}
 \begin{document}
 \begin{tikzpicture}[
-  font=\scriptsize, level distance=6.5mm,
+  font=\scriptsize, level distance=7mm,
+  level 1/.style={sibling distance=26mm},
+  level 2/.style={sibling distance=13mm},
+  level 3/.style={sibling distance=6.5mm},
   every node/.style={inner sep=1.2pt},
   sel/.style={circle, draw, fill=gray!45, inner sep=1.7pt},
   unsel/.style={circle, draw, inner sep=1.7pt}
 ]
-% tree rooted at r_0 (born at stage 0, split twice)
-\begin{scope}
-\node[unsel, label=above:{$r_0$}] {}
-  child[sibling distance=13mm] { node[unsel, label=left:{$L$}] {}
-    child[sibling distance=6.5mm] { node[sel, label=below:{$LL$}] {} }
-    child[sibling distance=6.5mm] { node[unsel] {} } }
-  child[sibling distance=13mm] { node[unsel] {}
-    child[sibling distance=6.5mm] { node[unsel] {} }
-    child[sibling distance=6.5mm] { node[sel, label=below:{$RR$}] {} } };
-\end{scope}
-% tree rooted at r_1 (born at stage 1, split once)
-\begin{scope}[xshift=34mm, yshift=-6.5mm]
-\node[unsel, label=above:{$r_1$}] {}
-  child[sibling distance=6.5mm] { node[unsel] {} }
-  child[sibling distance=6.5mm] { node[sel, label=below:{$R$}] {} };
-\end{scope}
-% fresh root r_2 (just adjoined at stage 2)
-\begin{scope}[xshift=49mm, yshift=-13mm]
-\node[sel, label=above:{$r_2$}] {};
-\node[draw=none, below=2.5mm] {\emph{fresh}};
-\end{scope}
-% code box
-\node[draw, rounded corners=2pt, align=left, inner sep=4pt, font=\scriptsize] at (2.4,-3.35) {
-  element \ $b=[r_0LL]\vee[r_0RR]\vee[r_1R]\vee[r_2]$,\quad stage $2$\\[2pt]
-  code \ $\underline b=\langle\, \underline{\vee},\ r_0LL,\ r_0RR,\ r_1R,\ r_2,\ \square\,\square\cdots\square\,\rangle$, \quad $|\underline b| = P_2$
+\node[unsel, label=above:{$\Lambda$}] {}
+  child { node[sel, label=left:{$L$}] {}
+    child { node[unsel] {} child { node[unsel]{} } child { node[unsel]{} } }
+    child { node[unsel] {} child { node[unsel]{} } child { node[unsel]{} } } }
+  child { node[unsel] (R1) [label=right:{$R$}] {}
+    child { node[sel, label=left:{$RL$}] {}
+      child { node[unsel]{} } child { node[unsel]{} } }
+    child { node[unsel] (R2) [label=right:{$RR$}] {}
+      child { node[sel, label=below:{$RRL$}]{} } child { node[unsel] (R3) [label=right:{$RRR$}]{} } } };
+% puncture the rightmost branch: cross out R, RR, RRR
+\foreach \p in {R1,R2,R3} {
+  \draw[thick] (\p.center) ++(-2.6pt,-2.6pt) -- ++(5.2pt,5.2pt);
+  \draw[thick] (\p.center) ++(-2.6pt,2.6pt) -- ++(5.2pt,-5.2pt);
+}
+\node[draw, rounded corners=2pt, align=left, inner sep=4pt, font=\scriptsize] at (0,-3.45) {
+  punctured: the rightmost atom $R^{\,n}$ of every stage ($\times$)\\[2pt]
+  element \ $b=[L]\vee[RL]\vee[RRL]$,\quad stage $3$\\[2pt]
+  code \ $\underline b=\langle\,\langle\langle\langle\underline{\vee},L\rangle,RL\rangle,RRL\rangle,\ \square\,\square\cdots\square\,\rangle$, \quad $|\underline b| = P_3$
 };
 \end{tikzpicture}
 \end{document}
