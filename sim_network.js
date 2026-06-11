@@ -45,10 +45,16 @@ function padTo(items, L) {
   return mkList([...items, PAD.repeat(s)]);
 }
 
-function quadLen(contentLen) { return 2 * (contentLen + 1) * (contentLen + 1); }
+// Uniform per-level length, as in Section V's P_n.  Arity is capped at NMAX, so
+// every depth-d hub (and its satellite ring) pads to the SAME length P_d, the
+// largest a depth-d hub can need:  P_0 = 2(maxRaw+1)^2,  P_d = 2(NMAX(P_{d-1}+1)+1)^2.
+const NMAX = 4;
+let P0 = 18;                                 // = 2(maxRaw+1)^2; set per regime
+function setMaxRaw(r) { P0 = 2 * (r + 1) * (r + 1); }
+function Pd(d) { let p = P0; for (let i = 0; i < d; i++) p = 2 * (NMAX * (p + 1) + 1) * (NMAX * (p + 1) + 1); return p; }
 
 function mkSeed(raw) {
-  return padTo([raw], quadLen(raw.length));
+  return padTo([raw], P0);                   // every seed padded to the common P_0
 }
 // strict length-lex order on codes (shorter first, then lexicographic)
 function lexLess(a, b) { return a.length !== b.length ? a.length < b.length : a < b; }
@@ -89,8 +95,9 @@ function shape(code) {
 function mkHub(comps) {
   const sorted = [...comps].sort((a, b) => (lexLess(a, b) ? -1 : 1));
   for (let i = 0; i + 1 < sorted.length; i++) if (sorted[i] === sorted[i + 1]) throw new Error('duplicate component');
-  const content = mkList(sorted);
-  return padTo(sorted, quadLen(content.length));
+  if (sorted.length > NMAX) throw new Error('arity exceeds NMAX');
+  const d = 1 + Math.max(...sorted.map(depth));
+  return padTo(sorted, Pd(d));               // every depth-d hub padded to the common P_d
 }
 
 function comps(code) {
@@ -118,7 +125,7 @@ function rOp(code) {
     const inner = topItems('<' + hat.slice(1, -1) + '>');
     let host;
     if (inner.length === 1 && /^[a-z]+$/.test(inner[0])) host = mkSeed(inner[0]);
-    else host = padTo(inner, quadLen(hat.length));
+    else host = padTo(inner, Pd(1 + Math.max(...inner.map(depth))));
     const k = arity(host);
     if (j < k) return padTo([hat, String(j + 1)], L);
     return host;
@@ -134,19 +141,20 @@ function canCheck(code) {
   const sh = shape(code);
   if (sh === 'malformed') return false;
   const it = topItems(code);
-  if (sh === 'seed') return code.length === quadLen(it[0].length);
+  if (sh === 'seed') return code.length === P0;
   if (sh === 'hub') {
     const body = it.slice(0, -1);
+    if (body.length > NMAX) return false;
     for (let i = 0; i + 1 < body.length; i++) if (!lexLess(body[i], body[i + 1])) return false;
     if (!body.every(canCheck)) return false;
-    return code.length === quadLen(mkList(body).length);
+    return code.length === Pd(1 + Math.max(...body.map(depth)));
   }
   // sat
   const hat = it[0]; const j = parseInt(it[1], 10);
   const inner = topItems('<' + hat.slice(1, -1) + '>');
   let host;
   try {
-    host = (inner.length === 1 && /^[a-z]+$/.test(inner[0])) ? mkSeed(inner[0]) : padTo(inner, quadLen(hat.length));
+    host = (inner.length === 1 && /^[a-z]+$/.test(inner[0])) ? mkSeed(inner[0]) : padTo(inner, Pd(1 + Math.max(...inner.map(depth))));
   } catch (e) { return false; }
   if (!canCheck(host)) return false;
   return code.length === host.length && j >= 1 && j <= arity(host);
@@ -201,16 +209,19 @@ function queryAbs(u, v, m, t, d0) {
 // ---------------------------------------------------------------------
 console.log('# ============ ABSTRACT REGIME ============');
 console.log('# Worked instance');
+setMaxRaw(2);                                // seeds of raw length 2 -> P_0 = 18
 const A = mkSeed('aa'), B = mkSeed('bb'), C = mkSeed('cc');
-console.log(`|A|=${A.length} |B|=${B.length} |C|=${C.length}  (seeds <raw,#^s>, L=2*(2+1)^2=18)`);
+console.log(`|A|=${A.length} |B|=${B.length} |C|=${C.length}  (P_0 = 2*(2+1)^2 = ${P0})`);
 const H = mkHub([A, B]);
-console.log(`H = <A,B,#^s>: |H|=${H.length}  s=${topItems(H)[2].length}  (L(H)=2*(39+1)^2=3200)`);
+console.log(`H = <A,B,#^s>: |H|=${H.length}  = P_1 = 2*(4*(P_0+1)+1)^2 = ${Pd(1)}  s=${topItems(H)[2].length}`);
 const m1 = rOp(H), m2 = rOp(m1), back = rOp(m2);
-console.log(`|m1|=${m1.length} |m2|=${m2.length}  s_j=${topItems(m1)[2].length}  r(m2)==H: ${back === H}`);
+console.log(`|m1|=${m1.length} |m2|=${m2.length}  s_j=${topItems(m1)[2].length}  r(m2)==H: ${back === H}  (ring length = P_1, uniform)`);
 console.log(`ev(r(r(H))) == m2: ${ev(['r', ['r', H]]) === m2}`);
 console.log(`depth: A=${depth(A)} H=${depth(H)}`);
-const G = mkHub([C, H]);
-console.log(`G = <C,H,#^s>: |G|=${G.length} depth=${depth(G)}  (availability: n=1 NO, n=2 YES)`);
+// G = <C,H> is depth 2: P_2 is astronomically long, so we report it symbolically
+// (emergence needs only the depth, never the materialised G code).
+const Gdepth = 1 + Math.max(depth(C), depth(H));
+console.log(`G=<C,H>: depth=${Gdepth}, |G| = P_${Gdepth} = ${Pd(Gdepth)}  (availability: n=1 NO, n=2 YES)`);
 console.log(`vol(H)=${vol(H)} vol(A)=${vol(A)}  tau(H,A)=${tau(H, A)} kappa(H,A)=${kap(H, A)}`);
 console.log(`ring legs: tau(H,m1)=${tau(H, m1)} tau(m1,m2)=${tau(m1, m2)} tau(m2,H)=${tau(m2, H)}  milk-run=${tau(H, m1) + tau(m1, m2) + tau(m2, H)}`);
 const q1 = queryAbs(H, A, 2, 6, 10), q2 = queryAbs(H, A, 2, 5, 10);
@@ -218,7 +229,7 @@ console.log(`ETA H->A (m=2,d0=10): t=6 -> ${q1.yes} (eta ${q1.eta});  t=5 -> ${q
 
 // EXP-A: validity
 console.log('# EXP-A: validity checks');
-let okCan = [A, B, C, H, m1, m2, G].every(canCheck);
+let okCan = [A, B, C, H, m1, m2].every(canCheck);
 const mutants = [
   mkList([B, A, PAD.repeat(H.length - listLen([B, A]) - 1)]),       // unsorted
   mkList([A, A, PAD.repeat(H.length - listLen([A, A]) - 1)]),       // duplicate
@@ -249,30 +260,28 @@ console.log(`r returns home around every ring in k(d)+1 steps: ${homeOK}`);
 // EXP-B: query time vs code length L (grid: seed raw size x arity), m in {2,8,20}
 // ---------------------------------------------------------------------
 console.log('# EXP-B: query time vs |code| (abstract codes), m in {2,8,20}');
-console.log('# raw k L  us_m2 us_m8 us_m20');
-const grid = [];
-for (const rw of [2, 4, 8]) {
-  for (const k of [2, 3, 4]) {  // L from 3200 to 855K (~2.4 decades), keeps each query under ~2s
-    const seeds = [];
-    for (let i = 0; i < k; i++) seeds.push(mkSeed(String.fromCharCode(97 + i).repeat(rw)));
-    grid.push({ rw, k, hub: mkHub(seeds), tgt: seeds[k - 1] });
-  }
-}
-for (const g of grid) {
-  const L = g.hub.length;
+console.log('# raw L  us_m2 us_m8 us_m20');
+// With uniform P_d the depth-1 length P_1 depends only on the seed size (arity no
+// longer changes the length), so we scale the code length by the seed raw size;
+// depth 2 (P_2 ~ 4.5e9) is unmaterialisable.
+for (const rw of [2, 3, 4, 5, 6, 8, 10]) {
+  setMaxRaw(rw);
+  const seeds = [mkSeed('a'.repeat(rw)), mkSeed('b'.repeat(rw))];
+  const hub = mkHub(seeds), tgt = seeds[1], L = hub.length;
   const us = [];
   for (const m of [2, 8, 20]) {
     const ts = [];
     for (let rep = 0; rep < 5; rep++) {
       const t0 = process.hrtime.bigint();
-      queryAbs(g.hub, g.tgt, m, 1e9, 0);
+      queryAbs(hub, tgt, m, 1e9, 0);
       const t1 = process.hrtime.bigint();
       ts.push(Number(t1 - t0) / 1e3);
     }
     us.push(median(ts));
   }
-  console.log(`${g.rw} ${g.k} ${L} ${us[0].toFixed(1)} ${us[1].toFixed(1)} ${us[2].toFixed(1)}`);
+  console.log(`${rw} ${L} ${us[0].toFixed(1)} ${us[1].toFixed(1)} ${us[2].toFixed(1)}`);
 }
+setMaxRaw(2);
 
 // ---------------------------------------------------------------------
 // EXP-C: FBC ablation on r -- exact symbolic code lengths (BigInt)
@@ -280,9 +289,9 @@ for (const g of grid) {
 console.log('# EXP-C: ablation -- code length under t applications of r');
 console.log('# t  compliant  noStripLog10  noPad');
 {
-  let compliant = 3200n;
-  let noStrip = 3200n;           // r~ : quadratic re-padding WITHOUT the strip: L' = 2(L+5)^2
-  let noPad = 3200n;             // r~~: history nesting, no padding: L' = L+4
+  let compliant = 11858n;        // = P_1, the ring length of H
+  let noStrip = 11858n;          // r~ : quadratic re-padding WITHOUT the strip: L' = 2(L+5)^2
+  let noPad = 11858n;            // r~~: history nesting, no padding: L' = L+4
   const log10 = (x) => x.toString().length - 1 + Math.log10(Number('0.' + x.toString().slice(0, 15)) * 10);
   for (let t = 0; t <= 20; t++) {
     console.log(`${t} ${compliant} ${log10(noStrip).toFixed(2)} ${noPad}`);

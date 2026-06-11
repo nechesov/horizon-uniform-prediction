@@ -14,7 +14,7 @@
   title={\scriptsize (a) build, realized trajectory},
   xtick={0,8000,16000}, xticklabels={0,8k,16k},
 ]
-\addplot[mark=*, thick] coordinates {(250,1.10)(500,1.84)(1000,3.98)(2000,8.82)(4000,18.52)(8000,44.28)(16000,98.11)};
+\addplot[mark=*, thick] coordinates {(250,1.12)(500,2.01)(1000,4.30)(2000,10.31)(4000,18.61)(8000,55.24)(16000,116.92)};
 \end{axis}
 % (b) query time vs code length L (abstract padded codes) -- poly in L, m-independent
 \begin{scope}[xshift=6.3cm]
@@ -26,13 +26,13 @@
   legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
   legend cell align=left,
 ]
-\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(3200,3.63)(6962,7.27)(12168,17.76)(21632,20.91)(48050,71.38)(84872,140.9)(215168,281.9)(482162,751.1)(855432,1772.1)};
+\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(11858,9.38)(35378,30.41)(84050,67.74)(171698,144.3)(315218,289.7)(852818,887.4)(1893458,1745.1)};
 \addlegendentry{$m{=}8$}
-\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(3200,2.94)(6962,6.45)(12168,20.92)(21632,25.20)(48050,63.51)(84872,143.7)(215168,260.5)(482162,797.0)(855432,1942.3)};
+\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(11858,9.11)(35378,29.97)(84050,68.42)(171698,144.3)(315218,297.3)(852818,888.7)(1893458,1768.6)};
 \addlegendentry{$m{=}2$}
-\addplot[mark=o, mark size=1.3pt, only marks] coordinates {(3200,3.06)(6962,8.49)(12168,16.94)(21632,23.38)(48050,71.86)(84872,144.3)(215168,285.1)(482162,808.6)(855432,1787.4)};
+\addplot[mark=o, mark size=1.3pt, only marks] coordinates {(11858,9.45)(35378,28.86)(84050,67.29)(171698,144.1)(315218,288.7)(852818,890.7)(1893458,1756.6)};
 \addlegendentry{$m{=}20$}
-\addplot[domain=3200:855432, dashed, gray, samples=2] {3.63/3200*x};
+\addplot[domain=11858:1893458, dashed, gray, samples=2] {9.38/11858*x};
 \addlegendentry{slope $1$}
 \end{axis}
 \end{scope}
@@ -41,12 +41,12 @@
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
   xlabel={horizon $n$ (rounds), nodes $\times32$}, ylabel={query time ($\mu$s)},
-  xmode=log, log basis x=2, ymin=0, ymax=45,
+  xmode=log, log basis x=2, ymin=0, ymax=48,
   title={\scriptsize (c) query flat in $n$, $m=8$},
   xtick={500,2000,8000,16000}, xticklabels={500,2k,8k,16k},
 ]
-\addplot[mark=triangle*, thick] coordinates {(500,36.3)(1000,37.4)(2000,17.2)(4000,9.8)(8000,11.3)(16000,9.8)};
-\node[font=\tiny, anchor=south] at (axis cs:3000,24) {network $\times32$, no upward trend};
+\addplot[mark=triangle*, thick] coordinates {(500,41.0)(1000,21.8)(2000,18.5)(4000,10.0)(8000,11.0)(16000,10.5)};
+\node[font=\tiny, anchor=south] at (axis cs:3000,28) {network $\times32$, no upward trend};
 \end{axis}
 \end{scope}
 \end{tikzpicture}
