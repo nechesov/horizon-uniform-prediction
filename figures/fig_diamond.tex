@@ -1,17 +1,43 @@
 \documentclass[tikz,border=2pt]{standalone}
 \usepackage{times}
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{arrows.meta,positioning,fit}
 \begin{document}
-\begin{tikzpicture}[>=stealth,font=\small,
-  every node/.style={circle,draw,minimum size=6mm,inner sep=1pt},
-  nv/.style={circle,draw,dashed,fill=gray!12,minimum size=6mm,inner sep=1pt}]
-\node (A) at (0,0) {$A$};
-\node (H) at (1.9,0.75) {$H$};
-\node[nv] (D) at (1.9,-0.75) {$D$};
-\node (B) at (3.8,0) {$B$};
-\draw[->] (A) -- node[above left,draw=none,font=\scriptsize]{$\tau{=}2$} (H);
-\draw[->] (H) -- node[above right,draw=none,font=\scriptsize]{$\tau{=}3$} (B);
-\draw[->,dashed] (A) -- node[below left,draw=none,font=\scriptsize]{$\tau{=}1$} (D);
-\draw[->,dashed] (D) -- node[below right,draw=none,font=\scriptsize]{$\tau{=}5$} (B);
+\begin{tikzpicture}[font=\small,>=Stealth,
+  seed/.style={circle,draw,minimum size=6.5mm,inner sep=0pt,fill=white},
+  hub/.style={circle,draw,thick,minimum size=8mm,inner sep=0pt,fill=gray!8},
+  shub/.style={circle,draw,thick,dashed,minimum size=8.5mm,inner sep=0pt,fill=gray!18},
+  sat/.style={circle,draw,minimum size=4.6mm,inner sep=0pt,fill=gray!25,font=\scriptsize},
+  dist/.style={->,thick},
+  ring/.style={->,gray!70!black,thick},
+  cons/.style={-,densely dotted,gray}]
+
+\node[seed] (A) at (0,0) {$A$};
+\node[seed] (B) at (0,-1.5) {$B$};
+\node[seed] (C) at (1.5,-3.0) {$C$};
+
+\node[hub] (H) at (2.2,-0.75) {$H$};
+\draw[cons] (A) -- (H); \draw[cons] (B) -- (H);
+\draw[dist] (H) to[bend left=8] node[above,font=\scriptsize,inner sep=1pt]{$\tau{=}6$} (A);
+\draw[dist] (H) to[bend right=8] (B);
+
+\node[sat] (m1) at (3.7,0.2) {$m_1$};
+\node[sat] (m2) at (3.7,-1.7) {$m_2$};
+\draw[ring] (H) to[bend left=18] node[above,font=\scriptsize,inner sep=1pt]{$3$} (m1);
+\draw[ring] (m1) to[bend left=18] node[right,font=\scriptsize,inner sep=1pt]{$3$} (m2);
+\draw[ring] (m2) to[bend left=18] node[below,font=\scriptsize,inner sep=1pt]{$3$} (H);
+
+\node[shub] (G) at (3.4,-3.0) {$G$};
+\draw[cons] (C) -- (G); \draw[cons] (H) to[bend right=5] (G);
+
+% code box
+\node[draw,rounded corners=2pt,align=left,inner sep=4pt,font=\scriptsize,anchor=north west]
+  at (5.0,0.7) {%
+  $A=\langle \mathtt{aa},\square^{13}\rangle,\ |A|=18$\\[1pt]
+  $H=\langle A,B,\square^{3160}\rangle,\ |H|=3200$\\[1pt]
+  $m_1=\langle \hat H,1,\square^{3156}\rangle,\ |m_1|=3200$\\[1pt]
+  $G=\langle C,H\rangle$: depth $2$\ (horizon $2$)};
+
+\node[font=\scriptsize,align=center] at (2.2,-1.95) {milk-run\\ $\mathrm{Loop}_9(H)$};
 \end{tikzpicture}
 \end{document}
