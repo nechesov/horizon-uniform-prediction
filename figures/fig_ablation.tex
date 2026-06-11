@@ -15,11 +15,11 @@
   legend cell align=left,
 ]
 % no-strip: digits = log10(length); length ~ 2^(2^t): doubly exponential
-\addplot[mark=triangle*, mark size=1pt, thick, dashed] coordinates {(0,4)(2,17)(4,70)(6,280)(8,1120)(10,4480)(12,17921)(14,71683)(16,286734)(18,1146939)(20,4587755)};
+\addplot[mark=triangle*, mark size=1pt, thick, dashed] coordinates {(0,2)(2,8)(4,33)(6,131)(8,526)(10,2106)(12,8425)(14,33703)(16,134812)(18,539249)(20,2156996)};
 \addlegendentry{no strip ($r$ violates FBC)}
-% compliant: constant P_1=11858 -> 5 digits
-\addplot[mark=*, mark size=1pt, thick] coordinates {(0,5)(4,5)(8,5)(12,5)(16,5)(20,5)};
-\addlegendentry{length-preserving (5 digits)}
+% compliant: constant P_1=52 -> 2 digits
+\addplot[mark=*, mark size=1pt, thick] coordinates {(0,2)(4,2)(8,2)(12,2)(16,2)(20,2)};
+\addlegendentry{length-preserving (2 digits)}
 \end{axis}
 % (e) confidence floor vs realized confidence
 \begin{scope}[xshift=5.3cm]

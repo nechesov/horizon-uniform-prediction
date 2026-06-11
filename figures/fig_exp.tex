@@ -14,25 +14,25 @@
   title={\scriptsize (a) build, realized trajectory},
   xtick={0,8000,16000}, xticklabels={0,8k,16k},
 ]
-\addplot[mark=*, thick] coordinates {(250,1.12)(500,2.01)(1000,4.30)(2000,10.31)(4000,18.61)(8000,55.24)(16000,116.92)};
+\addplot[mark=*, thick] coordinates {(250,2.17)(500,3.07)(1000,6.61)(2000,14.03)(4000,29.92)(8000,69.54)(16000,144.24)};
 \end{axis}
-% (b) query time vs code length L (abstract padded codes) -- poly in L, m-independent
+% (b) query time vs code length L=P_d (abstract padded codes), scaled by depth -- poly in L
 \begin{scope}[xshift=6.3cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
-  xlabel={code length $L$ (abstract codes)}, ylabel={query time (ms)},
+  xlabel={code length $L=P_d$ (depth 1--8)}, ylabel={query time (ms)},
   xmode=log, ymode=log,
   title={\scriptsize (b) query vs.\ $|\text{code}|$, $m\in\{2,8,20\}$},
   legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
   legend cell align=left,
 ]
-\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(11858,9.38)(35378,30.41)(84050,67.74)(171698,144.3)(315218,289.7)(852818,887.4)(1893458,1745.1)};
+\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(52,0.069)(220,0.512)(892,2.49)(3580,9.94)(14332,36.6)(57340,154.4)(229372,984.5)(917500,4398.4)};
 \addlegendentry{$m{=}8$}
-\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(11858,9.11)(35378,29.97)(84050,68.42)(171698,144.3)(315218,297.3)(852818,888.7)(1893458,1768.6)};
+\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(52,0.071)(220,0.565)(892,1.89)(3580,6.48)(14332,24.3)(57340,79.8)(229372,525.3)(917500,2458.4)};
 \addlegendentry{$m{=}2$}
-\addplot[mark=o, mark size=1.3pt, only marks] coordinates {(11858,9.45)(35378,28.86)(84050,67.29)(171698,144.1)(315218,288.7)(852818,890.7)(1893458,1756.6)};
+\addplot[mark=o, mark size=1.3pt, only marks] coordinates {(52,0.070)(220,0.518)(892,2.50)(3580,9.41)(14332,32.5)(57340,148.3)(229372,1027.2)(917500,4631.6)};
 \addlegendentry{$m{=}20$}
-\addplot[domain=11858:1893458, dashed, gray, samples=2] {9.38/11858*x};
+\addplot[domain=52:917500, dashed, gray, samples=2] {0.069/52*x};
 \addlegendentry{slope $1$}
 \end{axis}
 \end{scope}
@@ -45,8 +45,8 @@
   title={\scriptsize (c) query flat in $n$, $m=8$},
   xtick={500,2000,8000,16000}, xticklabels={500,2k,8k,16k},
 ]
-\addplot[mark=triangle*, thick] coordinates {(500,41.0)(1000,21.8)(2000,18.5)(4000,10.0)(8000,11.0)(16000,10.5)};
-\node[font=\tiny, anchor=south] at (axis cs:3000,28) {network $\times32$, no upward trend};
+\addplot[mark=triangle*, thick] coordinates {(500,31.5)(1000,26.2)(2000,33.9)(4000,10.5)(8000,21.1)(16000,18.4)};
+\node[font=\tiny, anchor=south] at (axis cs:3000,40) {network $\times32$, no upward trend};
 \end{axis}
 \end{scope}
 \end{tikzpicture}
