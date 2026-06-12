@@ -174,12 +174,10 @@ function depth(code) {
 }
 
 // attributes (p-computable from codes, short numerals; FBC trivially)
-function vol(code) { const sh = shape(code); return sh === 'hub' ? arity(code) : (sh === 'sat' ? volHostOf(code) : 1); }
-function volHostOf(satCode) {
-  const it = topItems(satCode); const inner = topItems('<' + it[0].slice(1, -1) + '>');
-  if (inner.length === 1 && /^[a-z]+$/.test(inner[0])) return 1;
-  return inner.length;
-}
+// vol = number of depots consolidated, floored at 1.  A satellite consolidates
+// nothing (it is a distinct small feeder micro-depot, not its host), so vol = 1,
+// exactly like a seed -- it does NOT inherit its host's volume.
+function vol(code) { const sh = shape(code); return sh === 'hub' ? arity(code) : 1; }
 function sp(u, v) { return 1 + ((vol(u) + vol(v)) % 3); }       // speed class 1..3
 function tau(u, v) { return Math.ceil(6 / sp(u, v)); }          // transit time
 function kap(u, v) { return 10 * Math.min(vol(u), vol(v)); }    // capacity

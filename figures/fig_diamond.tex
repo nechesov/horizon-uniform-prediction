@@ -23,9 +23,9 @@
 
 \node[sat] (m1) at (3.7,0.2) {$m_1$};
 \node[sat] (m2) at (3.7,-1.7) {$m_2$};
-\draw[ring] (H) to[bend left=18] node[above,font=\scriptsize,inner sep=1pt]{$3$} (m1);
-\draw[ring] (m1) to[bend left=18] node[right,font=\scriptsize,inner sep=1pt]{$3$} (m2);
-\draw[ring] (m2) to[bend left=18] node[below,font=\scriptsize,inner sep=1pt]{$3$} (H);
+\draw[ring] (H) to[bend left=18] node[above,font=\scriptsize,inner sep=1pt]{$6$} (m1);
+\draw[ring] (m1) to[bend left=18] node[right,font=\scriptsize,inner sep=1pt]{$2$} (m2);
+\draw[ring] (m2) to[bend left=18] node[below,font=\scriptsize,inner sep=1pt]{$6$} (H);
 
 \node[shub] (G) at (3.4,-3.0) {$G$};
 \draw[cons] (C) -- (G); \draw[cons] (H) to[bend right=5] (G);
@@ -38,6 +38,6 @@
   $m_1=\langle \hat H,1,\square^{24}\rangle,\ |m_1|=P_1$\\[1pt]
   $G=\langle C,H\rangle$: depth $2$,\ $P_2=220$};
 
-\node[font=\scriptsize,align=center] at (2.2,-1.95) {milk-run\\ $\mathrm{Loop}_9(H)$};
+\node[font=\scriptsize,align=center] at (2.2,-1.95) {milk-run\\ $\mathrm{Loop}_{14}(H)$};
 \end{tikzpicture}
 \end{document}
