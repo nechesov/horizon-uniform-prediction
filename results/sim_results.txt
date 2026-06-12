@@ -6,23 +6,24 @@ H = <A,B,#^s>: |H|=52  = P_1 = NMAX*(P_0+1)+8 = 52  s=28
 ev(r(r(H))) == m2: true
 depth: A=0 H=1
 G=<C,H>: depth=2, |G|=220 = P_2 = 220  canG=true  (availability: n=1 NO, n=2 YES)
-vol(H)=2 vol(A)=1  tau(H,A)=6 kappa(H,A)=10
-ring legs: tau(H,m1)=6 tau(m1,m2)=2 tau(m2,H)=6  milk-run=14
-ETA H->A (m=2,d0=10): t=6 -> true (eta 6);  t=5 -> false
+vol(H)=2 vol(A)=1  tau(H,A)=5 kappa(H,A)=10
+ring legs: tau(H,m1)=1 tau(m1,m2)=1 tau(m2,H)=1  milk-run=3
+dist(H,A)=5 sp(H,A)=1 tau(H,A)=5
+ETA H->A (m=2,d0=10): t=5 -> true (eta 5);  t=4 -> false
 # EXP-A: validity checks
 Can accepts built codes: true;  mutants rejected: 3/3
 |ev(t)| <= |t| on 200 random r-terms: true
 r returns home around every ring in k(d)+1 steps: true
 # EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,8,20}
 # depth L  us_m2 us_m8 us_m20
-1 52 68.3 59.3 60.9
-2 220 534.9 450.0 476.6
-3 892 1711.4 2222.2 2275.4
-4 3580 6394.3 9150.6 9278.8
-5 14332 24666.2 29460.3 30820.1
-6 57340 79134.3 142977.0 140814.8
-7 229372 320581.2 616978.5 590209.3
-8 917500 1487014.2 2665074.0 2638433.9
+1 52 79.2 60.7 63.3
+2 220 488.6 520.4 496.6
+3 892 1722.4 2214.3 2270.4
+4 3580 6244.5 8762.5 8574.5
+5 14332 23273.3 28920.3 28448.8
+6 57340 70992.0 128640.7 128437.9
+7 229372 362207.1 692447.8 835464.3
+8 917500 1547389.9 2741724.7 2697124.8
 # EXP-C: ablation -- code length under t applications of r
 # t  compliant  noStripLog10  noPad
 0 52 1.72 52
@@ -49,21 +50,21 @@ r returns home around every ring in k(d)+1 steps: true
 # ============ INTEGER-ID REGIME (realized trajectory) ============
 # EXP-D: build time vs n  (R=5 consolidators/stage + rings)
 # n  nodes  buildMs
-250 5054 1.36
-500 10045 1.82
+250 5054 1.39
+500 10045 1.86
 1000 20045 4.09
-2000 40087 8.69
-4000 79997 19.31
-8000 159912 46.03
-16000 319791 114.04
+2000 40087 9.28
+4000 79997 19.58
+8000 159912 49.62
+16000 319791 108.09
 # EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds
 # n  nodes  queryUs
-500 9940 26.1
-1000 19964 25.2
-2000 39932 19.8
-4000 80032 10.0
-8000 160056 11.3
-16000 319993 11.6
+500 9940 34.2
+1000 19964 20.3
+2000 39932 15.8
+4000 80032 10.3
+8000 160056 10.8
+16000 319993 11.1
 # EXP-F: confidence floor (m-leg promise, eps=0.01, 10^5 runs)
 # m  floor  exact  empirical
 1 0.9900 0.9900 0.9902

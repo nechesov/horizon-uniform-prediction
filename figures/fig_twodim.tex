@@ -8,11 +8,11 @@
 \begin{axis}[
   width=4.6cm, height=4.0cm, font=\scriptsize,
   xlabel={horizon $n$ (rounds)}, ylabel={build time (ms)},
-  ymin=0, ymax=130, xmin=0, xmax=16000,
+  ymin=0, ymax=120, xmin=0, xmax=16000,
   xtick={0,8000,16000}, xticklabels={0,8k,16k},
   title={\scriptsize realized build: linear in $n$},
 ]
-\addplot[domain=0:16000, thick, samples=2] {x*114.04/16000};
+\addplot[domain=0:16000, thick, samples=2] {x*108.09/16000};
 \node[font=\tiny, anchor=west, rotate=20] at (axis cs:1500,18) {$O(n)$};
 \end{axis}
 \begin{scope}[xshift=5.2cm]

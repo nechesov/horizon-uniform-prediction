@@ -179,7 +179,12 @@ function depth(code) {
 // exactly like a seed -- it does NOT inherit its host's volume.
 function vol(code) { const sh = shape(code); return sh === 'hub' ? arity(code) : 1; }
 function sp(u, v) { return 1 + ((vol(u) + vol(v)) % 3); }       // speed class 1..3
-function tau(u, v) { return Math.ceil(6 / sp(u, v)); }          // transit time
+// loc(d): a p-computable node coordinate (sum of letter values in the code);
+// dist(u,v) is the inter-node distance, so transit = distance / speed (physics),
+// not a constant over speed.  The feeder ring shares one site -> dist = 1 there.
+function loc(code) { let s = 0; for (let i = 0; i < code.length; i++) { const c = code.charCodeAt(i); if (c >= 97 && c <= 122) s += c - 96; } return s; }
+function dist(u, v) { return 1 + Math.abs(loc(u) - loc(v)); }
+function tau(u, v) { return Math.ceil(dist(u, v) / sp(u, v)); } // transit = dist/speed
 function kap(u, v) { return 10 * Math.min(vol(u), vol(v)); }    // capacity
 
 // neighbours: f_nb(u) = <r(u)> ^ comps(u)
@@ -224,8 +229,10 @@ const G = mkHub([C, H]);
 console.log(`G=<C,H>: depth=${depth(G)}, |G|=${G.length} = P_2 = ${Pd(2)}  canG=${canCheck(G)}  (availability: n=1 NO, n=2 YES)`);
 console.log(`vol(H)=${vol(H)} vol(A)=${vol(A)}  tau(H,A)=${tau(H, A)} kappa(H,A)=${kap(H, A)}`);
 console.log(`ring legs: tau(H,m1)=${tau(H, m1)} tau(m1,m2)=${tau(m1, m2)} tau(m2,H)=${tau(m2, H)}  milk-run=${tau(H, m1) + tau(m1, m2) + tau(m2, H)}`);
-const q1 = queryAbs(H, A, 2, 6, 10), q2 = queryAbs(H, A, 2, 5, 10);
-console.log(`ETA H->A (m=2,d0=10): t=6 -> ${q1.yes} (eta ${q1.eta});  t=5 -> ${q2.yes}`);
+const tt = tau(H, A);
+const q1 = queryAbs(H, A, 2, tt, 10), q2 = queryAbs(H, A, 2, tt - 1, 10);
+console.log(`dist(H,A)=${dist(H, A)} sp(H,A)=${sp(H, A)} tau(H,A)=${tt}`);
+console.log(`ETA H->A (m=2,d0=10): t=${tt} -> ${q1.yes} (eta ${q1.eta});  t=${tt - 1} -> ${q2.yes}`);
 
 // EXP-A: validity
 console.log('# EXP-A: validity checks');
