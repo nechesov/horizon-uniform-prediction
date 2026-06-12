@@ -72,7 +72,32 @@ see capacity, not just time.
 
 ---
 
-## 4. Genuine time dynamics (a larger, separate extension)
+## 4. Multiple and disjoint feasible paths (ETA is existential)
+
+`ETA_m(u,v,t)` is an **existential** query: it asks whether *there exists* one feasible
+route (within the hop bound and time budget, every leg `κ ≥ d₀`) and returns a single
+witness. But typically several feasible routes exist, possibly **disjoint** (sharing no
+nodes/edges). That carries real content:
+
+- **resilience** — disjoint routes survive single-edge failures; reroute on the spare;
+- **parallel throughput** — splitting flow across edge-disjoint routes aggregates their
+  rates (toward max-flow): the deliverable rate is the *sum* of the routes' bottlenecks,
+  not just one path's;
+- **load balancing** — spread demand so no single leg saturates.
+
+**Still Δ₀ for a fixed count.** "There exist `k` pairwise-disjoint feasible `m`-paths"
+is `k·m` bounded quantifiers over `ν`, plus pairwise-distinctness (`z_i^a ≠ z_j^b`) and
+the per-path time/capacity conditions — a fixed Δ₀ formula, hence **poly in the code
+length** for fixed `k, m` (Corollary 1). The aggregate rate `Σ_paths min_i κ_i` is
+short-numeral arithmetic over the chosen paths. So bounded disjoint-path queries fit the
+current framework directly (could be a §VI-C addition if wanted).
+
+**Unbounded `k` = max-flow**, which leaves Δ₀ and belongs to the flow study in §5
+(Menger / max-flow–min-cut with `κ` as edge capacities).
+
+---
+
+## 5. Genuine time dynamics (a larger, separate extension)
 
 Beyond static feasibility — actual evolution in time:
 
@@ -90,7 +115,7 @@ the network is the substrate; the dynamics run on top.
 
 ---
 
-## 5. What stays in the current paper (scope line)
+## 6. What stays in the current paper (scope line)
 
 Only the **bounded Δ₀ predictions**, each a fixed formula decidable in time polynomial
 in the code length:
@@ -100,5 +125,7 @@ in the code length:
   `κ ≥ d₀`;
 - **ring milk-run timing** — `Σ τ_i ≤ T`.
 
-Static feasibility, horizon entering only as a depth comparison. Everything in §§3–4
-above is explicitly **out of scope** for this paper and lives here until revisited.
+Static feasibility, horizon entering only as a depth comparison. Everything in §§3–5
+above is parked here until revisited. Note that some of it (the `RingOK` capacity
+condition of §3, and bounded disjoint-path queries of §4) actually stays Δ₀ and could be
+folded into the paper; only the genuine time dynamics of §5 leaves the framework.
