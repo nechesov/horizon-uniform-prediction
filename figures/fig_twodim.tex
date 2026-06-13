@@ -21,11 +21,11 @@
   width=4.6cm, height=4.0cm, font=\scriptsize,
   xlabel={horizon $n$ (rounds)}, ylabel={confidence floor},
   ymin=0, ymax=1.05, xmin=0, xmax=20,
-  title={\scriptsize floor $1-n\bar\epsilon$: linear in $n$},
+  title={\scriptsize floor $1-n\epsilon$: linear in $n$},
 ]
 \addplot[domain=0:20, thick] {1-0.03*x};
 \addplot[domain=0:16.6, dashed] {max(0,1-0.06*x)};
-\node[font=\tiny, anchor=west] at (axis cs:0.8,0.30) {$\bar\epsilon=0.03$ (solid), $0.06$ (dashed)};
+\node[font=\tiny, anchor=west] at (axis cs:0.8,0.30) {$\epsilon=0.03$ (solid), $0.06$ (dashed)};
 \end{axis}
 \end{scope}
 \end{tikzpicture}
