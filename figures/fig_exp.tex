@@ -11,7 +11,7 @@
   xlabel={horizon $n$ (consolidation rounds)}, ylabel={build time (ms)},
   ymin=0, xmin=0,
   scaled x ticks=false,
-  title={\scriptsize (a) build, realized trajectory},
+  title={\scriptsize (a) integer codes: build vs $n$},
   xtick={0,8000,16000}, xticklabels={0,8k,16k},
 ]
 \addplot[mark=*, thick] coordinates {(250,1.46)(500,1.98)(1000,4.03)(2000,8.68)(4000,21.2)(8000,47.31)(16000,115.9)};
@@ -22,7 +22,7 @@
   width=5.9cm, height=4.7cm, font=\scriptsize,
   xlabel={code length $L=P_d$ (depth 1--8)}, ylabel={query time (ms)},
   xmode=log, ymode=log,
-  title={\scriptsize (b) query vs.\ $|\text{code}|$, $m\in\{2,5,8\}$},
+  title={\scriptsize (b) padded codes: query vs.\ $|\text{code}|$},
   legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
   legend cell align=left,
 ]
@@ -42,7 +42,7 @@
   width=5.9cm, height=4.7cm, font=\scriptsize,
   xlabel={horizon $n$ (rounds), nodes $\times32$}, ylabel={query time ($\mu$s)},
   xmode=log, log basis x=2, ymin=0, ymax=20,
-  title={\scriptsize (c) query flat in $n$, $m=8$},
+  title={\scriptsize (c) integer codes: flat query ($m{=}8$)},
   xtick={500,2000,8000,16000}, xticklabels={500,2k,8k,16k},
 ]
 \addplot[mark=triangle*, thick] coordinates {(500,9.4)(1000,10.8)(2000,10.4)(4000,11.1)(8000,11)(16000,11.2)};
