@@ -264,10 +264,10 @@ for (const d of [A, H]) {
 console.log(`r returns home around every ring in k(d)+1 steps: ${homeOK}`);
 
 // ---------------------------------------------------------------------
-// EXP-B: query time vs code length L = P_d, scaled by DEPTH, m in {2,8,20}
+// EXP-B: query time vs code length L = P_d, scaled by DEPTH, m in {2,5,8}
 // ---------------------------------------------------------------------
-console.log('# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,8,20}');
-console.log('# depth L  us_m2 us_m8 us_m20');
+console.log('# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,5,8}');
+console.log('# depth L  us_m2 us_m5 us_m8');
 // Linear padding makes P_d ~ NMAX^d, so depth gives ~6 decades of code length while
 // the spine stays cheap to build: a left-spine H_1=<s1..s_NMAX>,
 // H_d=<H_{d-1}, NMAX-1 fresh seeds>, each of length exactly P_d, built in O(d).
@@ -287,7 +287,7 @@ for (let d = 1; d <= 8; d++) {
   }
   const L = spineHub.length;
   const us = [];
-  for (const m of [2, 8, 20]) {
+  for (const m of [2, 5, 8]) {
     const ts = [];
     for (let rep = 0; rep < 5; rep++) {
       const t0 = process.hrtime.bigint();

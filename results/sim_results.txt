@@ -14,16 +14,16 @@ ETA H->A (m=2,d0=10): t=5 -> true (eta 5);  t=4 -> false
 Can accepts built codes: true;  mutants rejected: 3/3
 |ev(t)| <= |t| on 200 random r-terms: true
 r returns home around every ring in k(d)+1 steps: true
-# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,8,20}
-# depth L  us_m2 us_m8 us_m20
-1 52 79.2 60.7 63.3
-2 220 488.6 520.4 496.6
-3 892 1722.4 2214.3 2270.4
-4 3580 6244.5 8762.5 8574.5
-5 14332 23273.3 28920.3 28448.8
-6 57340 70992.0 128640.7 128437.9
-7 229372 362207.1 692447.8 835464.3
-8 917500 1547389.9 2741724.7 2697124.8
+# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,5,8}
+# depth L  us_m2 us_m5 us_m8
+1 52 77.2 58.5 65.5
+2 220 515.2 477.6 521.3
+3 892 1693.5 2213.0 2329.3
+4 3580 6098.3 8787.5 8800.3
+5 14332 24685.4 31552.7 29207.1
+6 57340 80395.3 136107.5 138824.6
+7 229372 422058.7 774753.6 811154.8
+8 917500 1748237.5 3288675.8 3968965.2
 # EXP-C: ablation -- code length under t applications of r
 # t  compliant  noStripLog10  noPad
 0 52 1.72 52
@@ -50,21 +50,21 @@ r returns home around every ring in k(d)+1 steps: true
 # ============ INTEGER-ID REGIME (realized trajectory) ============
 # EXP-D: build time vs n  (R=5 consolidators/stage + rings)
 # n  nodes  buildMs
-250 5054 1.39
-500 10045 1.86
-1000 20045 4.09
-2000 40087 9.28
-4000 79997 19.58
-8000 159912 49.62
-16000 319791 108.09
+250 5054 1.81
+500 10045 1.90
+1000 20045 6.80
+2000 40087 15.14
+4000 79997 27.06
+8000 159912 58.22
+16000 319791 126.25
 # EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds
 # n  nodes  queryUs
-500 9940 34.2
-1000 19964 20.3
-2000 39932 15.8
-4000 80032 10.3
-8000 160056 10.8
-16000 319993 11.1
+500 9940 31.9
+1000 19964 34.4
+2000 39932 15.5
+4000 80032 16.6
+8000 160056 9.7
+16000 319993 16.9
 # EXP-F: confidence floor (m-leg promise, eps=0.01, 10^5 runs)
 # m  floor  exact  empirical
 1 0.9900 0.9900 0.9902
