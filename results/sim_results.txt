@@ -16,14 +16,14 @@ Can accepts built codes: true;  mutants rejected: 3/3
 r returns home around every ring in k(d)+1 steps: true
 # EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,5,8}
 # depth L  us_m2 us_m5 us_m8
-1 52 77.2 58.5 65.5
-2 220 515.2 477.6 521.3
-3 892 1693.5 2213.0 2329.3
-4 3580 6098.3 8787.5 8800.3
-5 14332 24685.4 31552.7 29207.1
-6 57340 80395.3 136107.5 138824.6
-7 229372 422058.7 774753.6 811154.8
-8 917500 1748237.5 3288675.8 3968965.2
+1 52 70.2 64.7 67.4
+2 220 635.5 691.0 525.3
+3 892 1709.8 2365.8 2328.9
+4 3580 6336.0 9475.5 9383.2
+5 14332 25881.2 32852.2 31368.6
+6 57340 79138.0 137738.2 137826.6
+7 229372 326714.0 574254.4 588683.1
+8 917500 1496231.3 2726842.3 2727918.3
 # EXP-C: ablation -- code length under t applications of r
 # t  compliant  noStripLog10  noPad
 0 52 1.72 52
@@ -50,21 +50,21 @@ r returns home around every ring in k(d)+1 steps: true
 # ============ INTEGER-ID REGIME (realized trajectory) ============
 # EXP-D: build time vs n  (R=5 consolidators/stage + rings)
 # n  nodes  buildMs
-250 5054 1.81
-500 10045 1.90
-1000 20045 6.80
-2000 40087 15.14
-4000 79997 27.06
-8000 159912 58.22
-16000 319791 126.25
+250 5054 1.46
+500 10045 1.98
+1000 20045 4.03
+2000 40087 8.68
+4000 79997 21.20
+8000 159912 47.31
+16000 319791 115.90
 # EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds
 # n  nodes  queryUs
-500 9940 31.9
-1000 19964 34.4
-2000 39932 15.5
-4000 80032 16.6
-8000 160056 9.7
-16000 319993 16.9
+500 9940 9.4
+1000 19964 10.8
+2000 39932 10.4
+4000 80032 11.1
+8000 160056 11.0
+16000 319993 11.2
 # EXP-F: confidence floor (m-leg promise, eps=0.01, 10^5 runs)
 # m  floor  exact  empirical
 1 0.9900 0.9900 0.9902

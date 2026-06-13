@@ -410,6 +410,16 @@ for (const n of [250, 500, 1000, 2000, 4000, 8000, 16000]) {
 
 console.log('# EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds');
 console.log('# n  nodes  queryUs');
+{ // warmup the query JIT path (queryInt/nbInt) before timing, mirroring the build warmup
+  const rnd = mulberry32(1); const tr = newTraj(3);
+  for (let i = 0; i < 2000; i++) applyStage(tr, rnd);
+  const wr = mulberry32(7);
+  for (let i = 0; i < 3000; i++) {
+    const a = tr.hubs[Math.floor(wr() * Math.min(100, tr.hubs.length))];
+    const b = tr.hubs[Math.floor(wr() * tr.hubs.length)];
+    queryInt(tr, a, b, 8, 1e9, 0);
+  }
+}
 for (const n of [500, 1000, 2000, 4000, 8000, 16000]) {
   const rnd = mulberry32(42);
   const tr = newTraj(3);
