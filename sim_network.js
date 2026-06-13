@@ -301,23 +301,6 @@ for (let d = 1; d <= 8; d++) {
 }
 setMaxRaw(2);
 
-// ---------------------------------------------------------------------
-// EXP-C: FBC ablation on r -- exact symbolic code lengths (BigInt)
-// ---------------------------------------------------------------------
-console.log('# EXP-C: ablation -- code length under t applications of r');
-console.log('# t  compliant  noStripLog10  noPad');
-{
-  let compliant = 52n;           // = P_1, the ring length of H (linear padding)
-  let noStrip = 52n;             // r~ : quadratic re-padding WITHOUT the strip: L' = 2(L+5)^2
-  let noPad = 52n;               // r~~: history nesting, no padding: L' = L+4
-  const log10 = (x) => x.toString().length - 1 + Math.log10(Number('0.' + x.toString().slice(0, 15)) * 10);
-  for (let t = 0; t <= 20; t++) {
-    console.log(`${t} ${compliant} ${log10(noStrip).toFixed(2)} ${noPad}`);
-    noStrip = 2n * (noStrip + 5n) * (noStrip + 5n);
-    noPad = noPad + 4n;
-  }
-}
-
 // ======================================================================
 // PART 2 -- INTEGER-ID REGIME: a realized trajectory of the envelope
 // ======================================================================

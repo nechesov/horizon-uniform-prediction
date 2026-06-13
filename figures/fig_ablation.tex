@@ -5,29 +5,12 @@
 \pgfplotsset{compat=1.16}
 \begin{document}
 \begin{tikzpicture}
-% (d) code length under t unfoldings: with vs without the length-preserving discipline
+% confidence floor vs realized confidence
 \begin{axis}[
-  width=4.7cm, height=4.5cm, font=\scriptsize,
-  xlabel={unfoldings $t$ (applications of $r$)}, ylabel={decimal digits of $|\text{code}|$},
-  ymode=log, xmin=0, xmax=20, ymin=1, ymax=1e7,
-  title={\scriptsize (d) length-preserving $r$ vs.\ not},
-  legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
-  legend cell align=left,
-]
-% no-strip: digits = log10(length); length ~ 2^(2^t): doubly exponential
-\addplot[mark=triangle*, mark size=1pt, thick, dashed] coordinates {(0,2)(2,8)(4,33)(6,131)(8,526)(10,2106)(12,8425)(14,33703)(16,134812)(18,539249)(20,2156996)};
-\addlegendentry{no strip ($r$ violates FBC)}
-% compliant: constant P_1=52 -> 2 digits
-\addplot[mark=*, mark size=1pt, thick] coordinates {(0,2)(4,2)(8,2)(12,2)(16,2)(20,2)};
-\addlegendentry{length-preserving (2 digits)}
-\end{axis}
-% (e) confidence floor vs realized confidence
-\begin{scope}[xshift=5.3cm]
-\begin{axis}[
-  width=4.7cm, height=4.5cm, font=\scriptsize,
+  width=6.2cm, height=4.7cm, font=\scriptsize,
   xlabel={look-ahead $m$ (hops)}, ylabel={confidence},
   ymin=0.78, ymax=1.0, xmin=0, xmax=21,
-  title={\scriptsize (e) floor vs.\ realized},
+  title={\scriptsize floor vs.\ realized},
   legend style={font=\tiny, at={(0.02,0.02)}, anchor=south west, draw=none, fill=none},
   legend cell align=left,
 ]
@@ -38,6 +21,5 @@
 \addplot[domain=0:21, thick, dashed] {1-0.01*x};
 \addlegendentry{floor $1-m\epsilon$}
 \end{axis}
-\end{scope}
 \end{tikzpicture}
 \end{document}
