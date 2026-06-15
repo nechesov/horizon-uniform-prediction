@@ -33,9 +33,12 @@ figures/
 node sim_network.js
 ```
 
-Every number is reproducible bit-for-bit: all randomness comes from a seeded
-deterministic PRNG (mulberry32). The run takes well under a minute on commodity
-hardware (reference machine: Intel Core i7-11800H, 16 GB RAM, Windows 11).
+The computed quantities (codes, validity checks, node counts, and the confidence
+floor) reproduce bit-for-bit: all randomness comes from a seeded deterministic PRNG
+(mulberry32). The wall-clock timings are reference medians from one run and vary by a
+machine-dependent factor, so the scaling exponents, not the absolute times, are the
+reproducible quantity. The run takes well under a minute on commodity hardware
+(reference machine: Intel Core i7-11800H, 16 GB RAM, Windows 11; Node.js 24).
 
 ## The five experiments
 

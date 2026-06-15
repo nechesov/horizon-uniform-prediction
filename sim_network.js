@@ -1,11 +1,12 @@
 // Simulation for the IEEE Access v2 paper:
 // the universal consolidation network (free consolidation family + satellite
 // rings under the unfolding operation r), in two regimes:
-//   (1) the ABSTRACT regime: literal padded codes of Section VI -- quadratic
-//       padding 2(|c|+1)^2, top-level strip, the operation r, ev, Can;
+//   (1) the ABSTRACT regime: literal padded codes (linear per-depth padding
+//       P_d = NMAX*(P_{d-1}+1)+8), top-level strip, the operation r, ev, Can;
 //   (2) the INTEGER-ID regime: a realized finite trajectory of the envelope
 //       (R consolidators per stage + their rings), used for scale.
-// Deterministic PRNG so every run reproduces the published numbers.
+// Deterministic PRNG: the computed quantities (codes, validity, confidence floor)
+// reproduce exactly; wall-clock timings are reference medians and vary by machine.
 'use strict';
 
 function mulberry32(seed) {
@@ -19,18 +20,16 @@ function mulberry32(seed) {
 }
 function median(xs) { const s = [...xs].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; }
 
-// ======================================================================
-// PART 1 -- ABSTRACT REGIME: literal padded codes
-// ======================================================================
+// Part 1: abstract regime (literal padded codes)
 // Code alphabet: '<' '>' ',' = list structure; '#' = the padding square;
 // lower-case letters = seed raw symbols; digits = ring-index numerals.
-// Conventions (Section VI):
-//   seed   = <raw, #^s>            padded to 2(|raw|+1)^2
+// Conventions:
+//   seed   = <raw, #^s>            padded to the base P_0 = |raw|+8
 //   hub    = <x_1,...,x_k, #^s>    x_1 < ... < x_k strict length-lex,
-//                                  padded to L = 2(|<x_1..x_k>|+1)^2
+//                                  padded to L = P_d = NMAX*(P_{d-1}+1)+8
 //   sat    = <hat(d), j, #^s>      padded to the RING length L(d)
-// |list of k items| = sum|items| + k + 1   (brackets + k-1 commas, the pad
-// block is a comma-separated item -- same convention as Section V).
+// |list of k items| = sum|items| + k + 1   (brackets + k-1 commas; the pad
+// block is a comma-separated item).
 
 const PAD = '#';
 
@@ -46,8 +45,8 @@ function padTo(items, L) {
 }
 
 // Uniform per-level length.  Arity is capped at NMAX, so a hub lists a CONSTANT
-// number of components -- the content is LINEAR in P_{d-1}, so a LINEAR recursion
-// suffices (no quadratic, unlike Section V whose elements list ~2^n atoms).  The
+// number of components, so the content is LINEAR in P_{d-1} and a LINEAR recursion
+// suffices (no quadratic, unlike the Boolean algebra whose elements list ~2^n atoms).  The
 // binding constraint is the satellite of the fattest hub; +8 is the room for its
 // bounded index and the triple's structure, keeping every padding block >= 1.
 const NMAX = 4;
@@ -176,7 +175,7 @@ function depth(code) {
 // attributes (p-computable from codes, short numerals; FBC trivially)
 // vol = number of depots consolidated, floored at 1.  A satellite consolidates
 // nothing (it is a distinct small feeder micro-depot, not its host), so vol = 1,
-// exactly like a seed -- it does NOT inherit its host's volume.
+// exactly like a seed; it does NOT inherit its host's volume.
 function vol(code) { const sh = shape(code); return sh === 'hub' ? arity(code) : 1; }
 function sp(u, v) { return 1 + ((vol(u) + vol(v)) % 3); }       // speed class 1..3
 // loc(d): a p-computable node coordinate (sum of letter values in the code);
@@ -209,9 +208,7 @@ function queryAbs(u, v, m, t, d0) {
   return { yes: false, eta: best.has(v) ? best.get(v) : 'unreachable' };
 }
 
-// ---------------------------------------------------------------------
-// Worked instance (Section VI-D) -- exact codes, replayed bit-for-bit
-// ---------------------------------------------------------------------
+// Worked instance: exact codes, replayed deterministically
 console.log('# ============ ABSTRACT REGIME ============');
 console.log('# Worked instance');
 setMaxRaw(2);                                // seeds of raw length 2 -> P_0 = maxRaw+8 = 10
@@ -263,9 +260,7 @@ for (const d of [A, H]) {
 }
 console.log(`r returns home around every ring in k(d)+1 steps: ${homeOK}`);
 
-// ---------------------------------------------------------------------
-// EXP-B: query time vs code length L = P_d, scaled by DEPTH, m in {2,5,8}
-// ---------------------------------------------------------------------
+// EXP-B: query time vs code length L = P_d, scaled by depth, m in {2,5,8}
 console.log('# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,5,8}');
 console.log('# depth L  us_m2 us_m5 us_m8');
 // Linear padding makes P_d ~ NMAX^d, so depth gives ~6 decades of code length while
@@ -301,9 +296,7 @@ for (let d = 1; d <= 8; d++) {
 }
 setMaxRaw(2);
 
-// ======================================================================
-// PART 2 -- INTEGER-ID REGIME: a realized trajectory of the envelope
-// ======================================================================
+// Part 2: integer-ID regime (a realized trajectory of the envelope)
 // Each stage: R new consolidators, each over a sorted 2-4-tuple of distinct
 // hubs drawn from a recency window W, plus its satellite ring (k = arity).
 // Out-degree is bounded BY CONSTRUCTION: hub k+1 (feeders + ring), sat 1.

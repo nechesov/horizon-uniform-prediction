@@ -5,7 +5,7 @@
 \pgfplotsset{compat=1.16}
 \begin{document}
 \begin{tikzpicture}
-% (a) build time vs n (integer-coded realized trajectory) -- linear
+% (a) build time vs n (integer-coded realized trajectory): linear
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
   xlabel={horizon $n$ (consolidation rounds)}, ylabel={build time (ms)},
@@ -16,7 +16,7 @@
 ]
 \addplot[mark=*, thick] coordinates {(250,1.46)(500,1.98)(1000,4.03)(2000,8.68)(4000,21.2)(8000,47.31)(16000,115.9)};
 \end{axis}
-% (b) query time vs code length L=P_d (abstract padded codes), scaled by depth -- poly in L
+% (b) query time vs code length L=P_d (abstract padded codes), scaled by depth: poly in L
 \begin{scope}[xshift=6.3cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
@@ -36,7 +36,7 @@
 \addlegendentry{slope $1$}
 \end{axis}
 \end{scope}
-% (c) flat query vs n (integer-coded) -- horizon-independent
+% (c) flat query vs n (integer-coded): horizon-independent
 \begin{scope}[xshift=12.6cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
