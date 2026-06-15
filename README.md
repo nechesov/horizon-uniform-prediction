@@ -50,7 +50,7 @@ reproducible quantity. The run takes well under a minute on commodity hardware
 | EXP4 | exact attribute mass, FBC vs. violated | without the boundary condition: 816 B → 2.4·10²¹ B in 20 stages |
 | EXP5 | confidence floor vs. realized confidence | the floor 1−mε never exceeds the exact value (1−ε)^m |
 
-The script also replays the worked instance from the paper (the A–H–B–D
+The script also replays the worked instance from the paper (the A-H-B-D
 diamond) and reproduces its outputs (**no** at budget t=4; **yes**, ETA 5, at t≥5).
 
 The expansion operator implements the paper's bounded-growth regime (A3):
@@ -71,7 +71,7 @@ files at submission anyway.)
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT license; see [LICENSE](LICENSE).
 
 ## Citation
 

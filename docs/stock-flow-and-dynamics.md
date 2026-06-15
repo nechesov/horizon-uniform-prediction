@@ -1,4 +1,4 @@
-# Stock–Flow Attributes and Network Dynamics — Notes for Future Work
+# Stock-Flow Attributes and Network Dynamics: Notes for Future Work
 
 **Status:** Parked ideas. **Not** in the current IEEE Access paper, which handles only
 *static, bounded Δ₀ queries* (feasibility/timing), poly in the code length. Captured
@@ -12,11 +12,11 @@ The attributes split into a **stock** and a **flow**:
 
 | symbol | kind | units | meaning |
 |---|---|---|---|
-| `vol(d)` | **stock** | volume | a node's **buffer** — how much it can accumulate |
+| `vol(d)` | **stock** | volume | a node's **buffer**: how much it can accumulate |
 | `κ(u,v)` | **flow** | volume / time | an edge's **flow rate** (v/sec) |
 | `vol/κ` | derived | time | time to **fill or drain** a buffer |
 | `d₀` | flow | volume / time | the **demanded rate** |
-| `c₁` | — | 1 / time | converts a buffer-bottleneck into a rate |
+| `c₁` | const | 1 / time | converts a buffer-bottleneck into a rate |
 
 Example: buffer `vol = 100`, inflow `κ = 10 v/s` ⇒ fills in `100/10 = 10 s`.
 
@@ -30,7 +30,7 @@ paper.
 ## 2. The entities are really one kind
 
 Hubs, seeds, and satellites are distinguished only **structurally** (by code shape:
-`Depot` vs `Sat`), but **physically they are uniform** — every node is a facility with
+`Depot` vs `Sat`), but **physically they are uniform**: every node is a facility with
 a buffer, linked by edges that each carry a flow rate `κ` and a transit time `τ`.
 
 A cleaner future model could use a **single sort `Node`** carrying `(vol, location)`,
@@ -45,7 +45,7 @@ the physics.
 Default in the paper: `vol(satellite) = 1` (small buffer); ring edges get
 `κ = c₁·min(vol,vol) = c₁`.
 
-Now make it realistic — **bad roads between satellites** (low `κ` on ring legs) and
+Now make it realistic, with **bad roads between satellites** (low `κ` on ring legs) and
 **small satellite buffers**:
 
 - flow that can circulate around the cycle is bounded by the **worst ring leg**,
@@ -55,7 +55,7 @@ Now make it realistic — **bad roads between satellites** (low `κ` on ring leg
   rate** → the circulation around the cycle **breaks**.
 
 So with realistic small satellites and poor roads, ring circulation is naturally
-throttled and can fail — a feature, not a bug.
+throttled and can fail: a feature, not a bug.
 
 **Small static extension that already fits the Δ₀ framework.** `Loop_T(d)` currently
 checks only *time* (`Σ_i τ_i ≤ T`). Add a *capacity* condition around the ring:
@@ -79,7 +79,7 @@ the article focused on the core theorem; the development is preserved here verba
 
 ### 4a. ETA with a volume demand
 
-`ETA_m(u,v,t)` answers reachability-in-time. Under the stock–flow reading a route also
+`ETA_m(u,v,t)` answers reachability-in-time. Under the stock-flow reading a route also
 delivers, by the deadline `t`, a **volume** = bottleneck rate × the window left once the
 front arrives:
 ```
@@ -95,7 +95,7 @@ Worked instance: edge `H→A` has `τ=5, κ=10`, so `W = 10(t−5)`; demand `d=1
 ### 4b. Delivery by p edge-disjoint routes
 
 One route delivers at most its bottleneck `W`. For more, route the demand along `p`
-routes whose **legs are pairwise disjoint** — each edge then serves one route, so the
+routes whose **legs are pairwise disjoint**: each edge then serves one route, so the
 volumes genuinely add (max-flow additivity). With `z̄^a` the a-th route, `d_a = W(z̄^a)`,
 and `E^a = {(z^a_{i-1}, z^a_i)}_i` its leg-set:
 ```
@@ -104,10 +104,10 @@ Deliver_{p,m}(u,v,t,d) :⇔ ∃z̄^1···∃z̄^p (
     & ⋀_{a<b} E^a ∩ E^b = ∅                       # segments pairwise disjoint
     & Σ_{a≤p} d_a ≥ d )                           # volumes add up to the demand
 ```
-`Deliver_{1,m} = ETA_m`. For fixed `p,m` this is `pm` bounded quantifiers — a fixed Δ₀
+`Deliver_{1,m} = ETA_m`. For fixed `p,m` this is `pm` bounded quantifiers, a fixed Δ₀
 formula, poly in the code length; out-degree `|ν| ≤ N_max+1` bounds the route-tuples by
 `(N_max+1)^{pm}` (cost `O((N_max+1)^{pm} N²)`). Note: disjointness is a constraint on the
-routes' legs, so the routes must be **explicit** — the ETA predicate as a black box hides
+routes' legs, so the routes must be **explicit**: the ETA predicate as a black box hides
 them; Deliver quantifies the routes and reuses ETA's reach-time matrix per route.
 
 Reasons it is interesting: **resilience** (disjoint routes survive single-edge failures),
@@ -121,7 +121,7 @@ simple `ETA_m(u,v,t)`. **Unbounded `p` = max-flow**, which leaves Δ₀ (§5).
 
 ## 5. Genuine time dynamics (a larger, separate extension)
 
-Beyond static feasibility — actual evolution in time:
+Beyond static feasibility, actual evolution in time:
 
 - **buffer dynamics:** `dV_d/dt = (inflows) − (outflows)`, each flow capped by the
   edge `κ` and the buffer `vol`;
@@ -132,7 +132,7 @@ Beyond static feasibility — actual evolution in time:
   ring bottleneck.
 
 This is a continuous/discrete-time simulation or a flow-LP, **not** a bounded Δ₀
-query — a separate study (its own section or paper). The p-computable presentation of
+query, a separate study (its own section or paper). The p-computable presentation of
 the network is the substrate; the dynamics run on top.
 
 ---
@@ -142,10 +142,10 @@ the network is the substrate; the dynamics run on top.
 Only the **bounded Δ₀ predictions**, each a fixed formula decidable in time polynomial
 in the code length:
 
-- **emergence** — `depth(C(ā)) ≤ n`;
-- **reachability / ETA** — a route within the hop bound and time budget, every leg
+- **emergence**: `depth(C(ā)) ≤ n`;
+- **reachability / ETA**: a route within the hop bound and time budget, every leg
   `κ ≥ d₀`;
-- **ring milk-run timing** — `Σ τ_i ≤ T`.
+- **ring milk-run timing**: `Σ τ_i ≤ T`.
 
 Static feasibility, horizon entering only as a depth comparison. Everything in §§3–5
 above is parked here until revisited. Note that some of it (the `RingOK` capacity
