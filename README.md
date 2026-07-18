@@ -57,12 +57,14 @@ reproducible quantity. The run takes well under a minute on commodity hardware
 removed in v1.1; it re-timed a fixed computation and is superseded by the
 depth view above. See the changelog at the end of this file.)*
 
-The script also replays the worked instance from the paper (the A-H-B-D
-diamond) and reproduces its outputs (**no** at budget t=4; **yes**, ETA 5, at t≥5).
+The script also replays the worked instance from the paper (seeds A, B, C; hub
+H = ⟨A,B⟩; super-hub G = ⟨C,H⟩) and reproduces its outputs (**no** at budget t=4;
+**yes**, ETA 5, at t≥5).
 
-The expansion operator implements the paper's bounded-growth regime (A3):
-K = 5 new depots per stage, attachment within a locality window W = 100,
-out-degree capped at D_max = 8; transit times τ ∈ {1..10}, capacities κ ∈ {1..100}.
+The expansion operator implements the paper's bounded-growth regime: K = 5 new
+depots per stage, attachment within a locality window W = 100, arity capped at
+N_max = 4 (so a hub's out-degree is its feeders plus its ring head). Transit time
+is τ = ⌈dist/speed⌉ with speed class 1–3; capacity is κ = 10·min(volume).
 
 ## Figures
 
