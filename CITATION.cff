@@ -16,10 +16,11 @@ keywords:
   - predictive analytics
   - evolving networks
   - fixed-point theorems
+version: "1.1"
 abstract: >
   Deterministic simulation validating the complexity guarantees of the paper
-  "Polynomial-Time Predictive Analytics on Evolving Networks via p-Computable
-  Direct Limits" (IEEE Access submission, 2026): linear-in-horizon
-  materialization, look-ahead-linear query cost, horizon-uniform query time
-  under network growth, a boundary-condition ablation, and a confidence-floor
-  validity check.
+  "Gandy Direct-Limit Theorem: Polynomial-Time Prediction on Operator-Generated
+  Networks" (IEEE Access submission, 2026): linear-in-rounds materialization,
+  query cost governed by the code length rather than the look-ahead, the
+  code-length cost growing with the depth of the target, a boundary-condition
+  ablation, and a confidence-floor validity check.

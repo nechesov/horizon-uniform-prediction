@@ -330,38 +330,11 @@ function applyStage(tr, rnd) {
     addRing(tr, d, k);
   }
 }
-function nbInt(tr, x) {
-  const out = [];
-  if (tr.kind[x] === 'sat') {
-    const h = tr.host[x], ring = tr.ring[h], j = ring.indexOf(x);
-    out.push(j + 1 < ring.length ? ring[j + 1] : h);
-  } else {
-    out.push(tr.ring[x][0], ...tr.comp[x]);
-  }
-  return out;
-}
-function spInt(tr, u, v) { return 1 + ((tr.volv[u] + tr.volv[v]) % 3); }
-function tauInt(tr, u, v) { return Math.ceil(6 / spInt(tr, u, v)); }
-function kapInt(tr, u, v) { return 10 * Math.min(tr.volv[u], tr.volv[v]); }
-
-function queryInt(tr, A0, B0, m, t, d0) {
-  if (A0 === B0) return { yes: t >= 0, eta: 0 };
-  const best = new Map([[A0, 0]]);
-  let F = [A0];
-  for (let h = 1; h <= m; h++) {
-    const Fp = [];
-    for (const u of F) {
-      for (const v of nbInt(tr, u)) {
-        if (kapInt(tr, u, v) < d0) continue;
-        const a = best.get(u) + tauInt(tr, u, v);
-        if (a <= t && (!best.has(v) || a < best.get(v))) { best.set(v, a); Fp.push(v); }
-      }
-    }
-    if (best.has(B0) && best.get(B0) <= t) return { yes: true, eta: best.get(B0) };
-    F = Fp;
-  }
-  return { yes: false, eta: best.has(B0) ? best.get(B0) : 'unreachable' };
-}
+// The integer-regime query functions (nbInt/spInt/tauInt/kapInt/queryInt) were
+// removed in v1.1 together with EXP-E below. The integer regime is retained only
+// to materialize a realized rollout at scale (EXP-D, build time); no query cost is
+// claimed on it. Query cost is measured in the abstract (canonical-code) regime,
+// EXP-B, which is the theorem's own cost model.
 
 console.log('# ============ INTEGER-ID REGIME (realized trajectory) ============');
 console.log('# EXP-D: build time vs n  (R=' + R_NEW + ' consolidators/stage + rings)');
@@ -384,42 +357,13 @@ for (const n of [250, 500, 1000, 2000, 4000, 8000, 16000]) {
   console.log(`${n} ${nodes} ${median(times).toFixed(2)}`);
 }
 
-console.log('# EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds');
-console.log('# n  nodes  queryUs');
-{ // warmup the query JIT path (queryInt/nbInt) before timing, mirroring the build warmup
-  const rnd = mulberry32(1); const tr = newTraj(3);
-  for (let i = 0; i < 2000; i++) applyStage(tr, rnd);
-  const wr = mulberry32(7);
-  for (let i = 0; i < 3000; i++) {
-    const a = tr.hubs[Math.floor(wr() * Math.min(100, tr.hubs.length))];
-    const b = tr.hubs[Math.floor(wr() * tr.hubs.length)];
-    queryInt(tr, a, b, 8, 1e9, 0);
-  }
-}
-for (const n of [500, 1000, 2000, 4000, 8000, 16000]) {
-  const rnd = mulberry32(42);
-  const tr = newTraj(3);
-  for (let i = 0; i < n; i++) applyStage(tr, rnd);
-  const pairRnd = mulberry32(7);
-  const pairs = [];
-  for (let i = 0; i < 21; i++) {
-    const a = tr.hubs[Math.floor(pairRnd() * Math.min(100, tr.hubs.length))];
-    const b = tr.hubs[Math.floor(pairRnd() * tr.hubs.length)];
-    pairs.push([a, b]);
-  }
-  const med = [];
-  for (const [a, b] of pairs) {
-    const ts = [];
-    for (let rep = 0; rep < 5; rep++) {
-      const t0 = process.hrtime.bigint();
-      queryInt(tr, a, b, 8, 1e9, 0);
-      const t1 = process.hrtime.bigint();
-      ts.push(Number(t1 - t0) / 1e3);
-    }
-    med.push(median(ts));
-  }
-  console.log(`${n} ${tr.nNodes} ${median(med).toFixed(1)}`);
-}
+// EXP-E (integer-regime query time vs network size) was removed in v1.1. Its query
+// sources were drawn from a fixed prefix of the rollout while the route relation
+// descends into a node's own consolidation subtree, so the explored set was fixed
+// by the design of the experiment and did not vary with the network: it re-timed a
+// single computation rather than measuring scaling. Query cost against the natural
+// parameter is shown by EXP-B (abstract regime) replotted against depth; see the
+// paper, Section VIII and Fig. 6(c).
 
 console.log('# EXP-F: confidence floor (m-leg promise, eps=0.01, 10^5 runs)');
 console.log('# m  floor  exact  empirical');

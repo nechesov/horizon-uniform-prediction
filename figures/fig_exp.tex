@@ -8,7 +8,7 @@
 % (a) build time vs n (integer-coded realized trajectory): linear
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
-  xlabel={horizon $n$ (consolidation rounds)}, ylabel={build time (ms)},
+  xlabel={consolidation rounds $n$}, ylabel={build time (ms)},
   ymin=0, xmin=0,
   scaled x ticks=false,
   title={\scriptsize (a) integer codes: build vs $n$},
@@ -36,17 +36,20 @@
 \addlegendentry{slope $1$}
 \end{axis}
 \end{scope}
-% (c) flat query vs n (integer-coded): horizon-independent
+% (c) THE SAME EXP-B DATA AS (b), plotted against the NATURAL parameter: depth.
+% (b) is linear in L and hides the exponential, because L = P_delta is itself 4^delta.
+% Against depth the same numbers are a straight line on a log axis: x4 per level.
 \begin{scope}[xshift=12.6cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
-  xlabel={horizon $n$ (rounds), nodes $\times32$}, ylabel={query time ($\mu$s)},
-  xmode=log, log basis x=2, ymin=0, ymax=20,
-  title={\scriptsize (c) integer codes: flat query ($m{=}8$)},
-  xtick={500,2000,8000,16000}, xticklabels={500,2k,8k,16k},
+  xlabel={depth $\delta$ of the queried target}, ylabel={query time (ms)},
+  ymode=log, xmin=0.5, xmax=8.5,
+  title={\scriptsize (c) padded codes: query vs.\ depth ($m{=}8$)},
+  xtick={1,2,3,4,5,6,7,8},
 ]
-\addplot[mark=triangle*, thick] coordinates {(500,9.4)(1000,10.8)(2000,10.4)(4000,11.1)(8000,11)(16000,11.2)};
-\node[font=\tiny, anchor=south] at (axis cs:3000,16) {network $\times32$, no upward trend};
+\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(1,0.0674)(2,0.525)(3,2.3289)(4,9.3832)(5,31.369)(6,137.83)(7,588.68)(8,2727.9)};
+\addplot[domain=1:8, dashed, gray, samples=2] {0.0674*4^(x-1)};
+\node[font=\tiny, anchor=north west] at (axis cs:1.2,2000) {$\times4$ per level};
 \end{axis}
 \end{scope}
 \end{tikzpicture}

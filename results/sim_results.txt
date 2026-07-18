@@ -34,14 +34,6 @@ r returns home around every ring in k(d)+1 steps: true
 4000 79997 21.20
 8000 159912 47.31
 16000 319791 115.90
-# EXP-E: query time at m=8 vs n (median of 21 pairs x 5 reps), microseconds
-# n  nodes  queryUs
-500 9940 9.4
-1000 19964 10.8
-2000 39932 10.4
-4000 80032 11.1
-8000 160056 11.0
-16000 319993 11.2
 # EXP-F: confidence floor (m-leg promise, eps=0.01, 10^5 runs)
 # m  floor  exact  empirical
 1 0.9900 0.9900 0.9902
