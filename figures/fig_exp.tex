@@ -20,19 +20,19 @@
 \begin{scope}[xshift=6.3cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
-  xlabel={code length $L=P_d$ (depth 1--8)}, ylabel={query time (ms)},
+  xlabel={code length $L=P_d$ (depth 1--8)}, ylabel={symbols read},
   xmode=log, ymode=log,
   title={\scriptsize (b) padded codes: query vs.\ $|\text{code}|$},
   legend style={font=\tiny, at={(0.02,0.98)}, anchor=north west, draw=none, fill=none},
   legend cell align=left,
 ]
-\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(52,0.0674)(220,0.525)(892,2.3289)(3580,9.3832)(14332,31.369)(57340,137.83)(229372,588.68)(917500,2727.9)};
+\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(52,52)(220,522)(892,3258)(3580,17668)(14332,89418)(57340,376208)(229372,1523158)(917500,6110748)};
 \addlegendentry{$m{=}8$}
-\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(52,0.0702)(220,0.635)(892,1.7098)(3580,6.336)(14332,25.881)(57340,79.138)(229372,326.71)(917500,1496.2)};
+\addplot[mark=triangle*, mark size=1.3pt, only marks] coordinates {(52,52)(220,522)(892,2034)(3580,8082)(14332,32274)(57340,129042)(229372,516114)(917500,2064402)};
 \addlegendentry{$m{=}2$}
-\addplot[mark=o, mark size=2.55pt, thick, only marks] coordinates {(52,0.0647)(220,0.691)(892,2.3658)(3580,9.4755)(14332,32.852)(57340,137.74)(229372,574.25)(917500,2726.8)};
+\addplot[mark=o, mark size=2.55pt, thick, only marks] coordinates {(52,52)(220,522)(892,3258)(3580,17668)(14332,89418)(57340,357042)(229372,1427538)(917500,5709522)};
 \addlegendentry{$m{=}5$}
-\addplot[domain=52:917500, dashed, gray, samples=2] {0.0674/52*x};
+\addplot[domain=52:917500, dashed, gray, samples=2] {6110748/917500*x};
 \addlegendentry{slope $1$}
 \end{axis}
 \end{scope}
@@ -42,14 +42,14 @@
 \begin{scope}[xshift=12.6cm]
 \begin{axis}[
   width=5.9cm, height=4.7cm, font=\scriptsize,
-  xlabel={depth $\delta$ of the queried target}, ylabel={query time (ms)},
+  xlabel={depth $\delta$ of the queried target}, ylabel={symbols read},
   ymode=log, xmin=0.5, xmax=8.5,
   title={\scriptsize (c) padded codes: query vs.\ depth ($m{=}8$)},
   xtick={1,2,3,4,5,6,7,8},
 ]
-\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(1,0.0674)(2,0.525)(3,2.3289)(4,9.3832)(5,31.369)(6,137.83)(7,588.68)(8,2727.9)};
-\addplot[domain=1:8, dashed, gray, samples=2] {0.0674*4^(x-1)};
-\node[font=\tiny, anchor=north west] at (axis cs:1.2,2000) {$\times4$ per level};
+\addplot[mark=square*, mark size=1.2pt, thick] coordinates {(1,52)(2,522)(3,3258)(4,17668)(5,89418)(6,376208)(7,1523158)(8,6110748)};
+\addplot[domain=1:8, dashed, gray, samples=2] {52*4^(x-1)};
+\node[font=\tiny, anchor=north west] at (axis cs:1.2,2e6) {$\times4$ per level};
 \end{axis}
 \end{scope}
 \end{tikzpicture}

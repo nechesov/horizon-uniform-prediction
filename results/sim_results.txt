@@ -14,16 +14,27 @@ ETA H->A (m=2,d0=10): t=5 -> true (eta 5);  t=4 -> false
 Can accepts built codes: true;  mutants rejected: 3/3
 |ev(t)| <= |t| on 200 random r-terms: true
 r returns home around every ring in k(d)+1 steps: true
-# EXP-B: query time vs |code|=P_d (abstract codes), depth 1..8, m in {2,5,8}
+# EXP-B: bounded reachability query to a named target (seed/hub/satellite), abstract codes, depth 1..8, m in {2,5,8}
+# deterministic op-counts, exactly reproducible (this is Table 2 of the paper); reproduce with query_cost_probe.js
+# depth L  nb_m2 nb_m5 nb_m8  chars_m2 chars_m5 chars_m8
+1 52 1 1 1 52 52 52
+2 220 6 6 6 522 522 522
+3 892 6 15 15 2034 3258 3258
+4 3580 6 28 28 8082 17668 17668
+5 14332 6 42 42 32274 89418 89418
+6 57340 6 42 56 129042 357042 376208
+7 229372 6 42 70 516114 1427538 1523158
+8 917500 6 42 84 2064402 5709522 6110748
+# reference wall-clock medians (us, machine-dependent), superseded by the op-counts above:
 # depth L  us_m2 us_m5 us_m8
-1 52 70.2 64.7 67.4
-2 220 635.5 691.0 525.3
-3 892 1709.8 2365.8 2328.9
-4 3580 6336.0 9475.5 9383.2
-5 14332 25881.2 32852.2 31368.6
-6 57340 79138.0 137738.2 137826.6
-7 229372 326714.0 574254.4 588683.1
-8 917500 1496231.3 2726842.3 2727918.3
+# 1 52 70.2 64.7 67.4
+# 2 220 635.5 691.0 525.3
+# 3 892 1709.8 2365.8 2328.9
+# 4 3580 6336.0 9475.5 9383.2
+# 5 14332 25881.2 32852.2 31368.6
+# 6 57340 79138.0 137738.2 137826.6
+# 7 229372 326714.0 574254.4 588683.1
+# 8 917500 1496231.3 2726842.3 2727918.3
 # ============ INTEGER-ID REGIME (realized trajectory) ============
 # EXP-D: build time vs n  (R=5 consolidators/stage + rings)
 # n  nodes  buildMs

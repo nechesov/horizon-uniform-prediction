@@ -16,7 +16,7 @@ keywords:
   - predictive analytics
   - evolving networks
   - fixed-point theorems
-version: "1.1"
+version: "1.2"
 abstract: >
   Deterministic simulation validating the complexity guarantees of the paper
   "Gandy Direct-Limit Theorem: Polynomial-Time Prediction on Operator-Generated

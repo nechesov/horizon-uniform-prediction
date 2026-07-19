@@ -48,8 +48,8 @@ reproducible quantity. The run takes well under a minute on commodity hardware
 | # | What it measures | Paper claim it tests |
 |---|------------------|----------------------|
 | EXP1 | build time of Γⁿ(N₀) vs. consolidation rounds *n* | materialization linear in *n* |
-| EXP2 | query time vs. code length *L=P_d* and look-ahead *m* | cost governed by the code, not the look-ahead (within a factor 2) |
-| EXP3 | the EXP2 query time replotted against **depth** (Fig. 6c) | cost ×(branching cap) per level: polynomial in *L* is exponential in the depth |
+| EXP2 | query cost (node-visits and symbols read, deterministic) vs. code length *L=P_d* and look-ahead *m* | cost governed by the code, not the look-ahead (within a factor ~3) |
+| EXP3 | the EXP2 query cost replotted against **depth** (Fig. 6c) | cost ×(branching cap) per level: polynomial in *L* is exponential in the depth |
 | EXP4 | exact attribute mass, FBC vs. violated | without the boundary condition: 816 B → 2.4·10²¹ B in 20 stages |
 | EXP5 | confidence floor vs. realized confidence | the floor 1−mε never exceeds the exact value (1−ε)^m |
 
