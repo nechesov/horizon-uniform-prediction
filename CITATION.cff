@@ -17,9 +17,9 @@ keywords:
   - evolving networks
   - fixed-point theorems
 version: "1.3"
-# Filled in by the Zenodo GitHub integration when release v1.3 is published.
-# Use the *concept* DOI (the one that always resolves to the latest version) here.
-doi: "10.5281/zenodo.XXXXXXX"
+# No doi field here: Zenodo mints the DOI when this release is archived, so any value
+# written before that is guesswork, and this file is itself part of the archived snapshot.
+# Add the concept DOI (the one that always resolves to the latest version) after publishing.
 repository-code: "https://github.com/nechesov/horizon-uniform-prediction"
 abstract: >
   Deterministic simulation validating the complexity guarantees of the paper
