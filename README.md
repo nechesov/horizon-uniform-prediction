@@ -28,13 +28,20 @@ figures/
 
 ## Requirements
 
-* Node.js ≥ 18 (tested on Node.js 24). No npm packages are needed.
+* Node.js ≥ 18. Reference run: **Node.js 24.15.0**, npm 11.12.1.
+* **No dependencies.** `package.json` declares empty `dependencies` and
+  `devDependencies`; the scripts use only the Node standard library, so there is no
+  `npm install` step and no lockfile to pin.
 
-## Run
+## Reproduce everything with one command
 
 ```
-node sim_network.js
+npm run reproduce
 ```
+
+This runs `query_cost_probe.js` (Table 1 of the paper) followed by `sim_network.js`
+(the remaining experiments and every figure's underlying numbers), in that order,
+and writes `results/`. Equivalent to `node query_cost_probe.js && node sim_network.js`.
 
 The computed quantities (codes, validity checks, node counts, and the confidence
 floor) reproduce bit-for-bit: all randomness comes from a seeded deterministic PRNG

@@ -1,11 +1,15 @@
 {
   "name": "horizon-uniform-prediction",
-  "version": "1.2.0",
-  "description": "Simulation and supplementary materials for 'Polynomial-Time Predictive Analytics on Evolving Networks via p-Computable Direct Limits' (IEEE Access submission)",
+  "version": "1.3.0",
+  "description": "Simulation and supplementary materials for 'Gandy Direct-Limit Theorem: Polynomial-Time Prediction on Operator-Generated Networks' (IEEE Access)",
   "main": "sim_network.js",
   "scripts": {
+    "reproduce": "node query_cost_probe.js && node sim_network.js",
+    "querycost": "node query_cost_probe.js",
     "sim": "node sim_network.js"
   },
+  "dependencies": {},
+  "devDependencies": {},
   "engines": {
     "node": ">=18"
   },
